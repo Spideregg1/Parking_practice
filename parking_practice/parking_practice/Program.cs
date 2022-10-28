@@ -2,25 +2,40 @@
 using System.Linq;
 using System.Text;
 
-namespace parking_practice
+namespace MainParking
 {
     //Q1:假設計算停車時間的邏輯是不理會秒數，例如13:10:59視為13:10:00。所以停車時間如果是13:10:59-13:11:10。仍視為1分鐘。
-    internal class Program : Solution
+    internal class Program
     {
         static void Main(string[] args)
         {
-            Solution sol = new Solution();
+
+
+            var fee = new ParkingAFeeRule();
+            var parkinga = new Solution(fee);
+
+            var feeB = new ParkingBFeeRule();
+            var parkingb = new Solution(feeB);
+
+            var feeC = new ParkingCFeeRule();
+            var parkingc = new Solution(feeC);
 
             #region 測資測試
 
 
             //"2022/5/1 00:00:00", "2022/5/3 00:11:59", 107, 3
 
-            DateTime firstdate = new DateTime(2022, 10, 1, 23, 48, 0);
-            DateTime seconddate = new DateTime(2022, 10, 3, 0, 11, 59);
+            DateTime firstdate = new DateTime(2022, 5, 2, 23, 49, 0);
 
-            var result = sol.CalcFeeForMultiDays(firstdate, seconddate).ToList();
+            DateTime seconddate = new DateTime(2022, 5, 4, 0,11, 59);
 
+            
+
+            var result = parkinga.CalcFeeForMultiDays(firstdate, seconddate).ToList();
+
+            var resulta = parkinga.CalcParkingFee(firstdate, seconddate).TotalFee;
+            var resultb = parkingb.CalcParkingFee(firstdate, seconddate).TotalFee;
+            var resultc = parkingc.CalcParkingFee(firstdate, seconddate).TotalFee;
             //DateTime start = new DateTime();
             //DateTime end = new DateTime();
             //int fee = 0;
@@ -29,15 +44,19 @@ namespace parking_practice
             //{
             //    start = item.StartTime;
             //    end = item.EndTime;
-            //    fee = item.Fee;
-            //    Console.WriteLine(start + " " + end +  " " + fee);
+
+            //    Console.WriteLine(start + " " + end );
             //}
 
             StringBuilder sb = new StringBuilder();
-            sb.Append("總計費用：");
-            sb.Append(result.Sum(s => s.Fee));
-            sb.Append("元");
-            sb.AppendLine("");
+            sb.Append("方案A：");
+            sb.AppendLine(resulta.ToString()+"元");
+            sb.Append("方案B：");
+            sb.AppendLine(resultb.ToString()+"元");
+            sb.Append("方案C：");
+            sb.AppendLine(resultc.ToString() + "元");
+
+
 
             Console.WriteLine(sb.ToString());
 
